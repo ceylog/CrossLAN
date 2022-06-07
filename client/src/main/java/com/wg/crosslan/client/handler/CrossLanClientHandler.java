@@ -60,17 +60,17 @@ public class CrossLanClientHandler extends CommonHandler {
         log.debug("channelRead \n" + msg);
         CrossLanMessage clmsg = (CrossLanMessage) msg;
         Type type = clmsg.getType();
-        if(Type.REGISTER_RESULT == type) {
+        if (Type.REGISTER_RESULT == type) {
             handleRegisterResult(clmsg);
-        }else if(Type.CONNECTED== type) {
+        } else if (Type.CONNECTED == type) {
             handleConnected(clmsg);
-        }else if(Type.DISCONNECTED == type) {
+        } else if (Type.DISCONNECTED == type) {
             handleDisconnected(clmsg);
-        }else if(Type.DATA == type) {
+        } else if (Type.DATA == type) {
             handleData(clmsg);
-        }else if(Type.KEEPALIVE == type) {
+        } else if (Type.KEEPALIVE == type) {
             log.info("keepalive ..");
-        }else {
+        } else {
             throw new RuntimeException("unknow type: " + type);
         }
     }

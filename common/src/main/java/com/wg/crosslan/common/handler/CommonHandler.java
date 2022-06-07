@@ -13,7 +13,7 @@ public class CommonHandler extends ChannelInboundHandlerAdapter {
 
     protected ChannelHandlerContext ctx;
 
-    public ChannelHandlerContext getCtx(){
+    public ChannelHandlerContext getCtx() {
         return ctx;
     }
 
@@ -34,12 +34,12 @@ public class CommonHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        if(evt instanceof IdleStateEvent){
+        if (evt instanceof IdleStateEvent) {
             IdleStateEvent e = (IdleStateEvent) evt;
-            if(IdleState.READER_IDLE == e.state()){
+            if (IdleState.READER_IDLE == e.state()) {
                 log.warn("read idle loss connection.");
                 ctx.close();
-            }else if(IdleState.WRITER_IDLE == e.state()){
+            } else if (IdleState.WRITER_IDLE == e.state()) {
                 CrossLanMessage msg = CrossLanMessage.newBuilder()
                         .setType(Type.KEEPALIVE)
                         .build();
@@ -50,7 +50,7 @@ public class CommonHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("exception {}",ctx,cause);
+        log.error("exception {}", ctx, cause);
         super.exceptionCaught(ctx, cause);
     }
 }

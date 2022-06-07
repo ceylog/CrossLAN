@@ -30,7 +30,7 @@ public class CrossLanClientApp {
                                 new ProtobufVarint32LengthFieldPrepender(),
                                 new ProtobufEncoder(),
                                 new IdleStateHandler(60, 30, 0),
-                                new CrossLanClientHandler("abcd1234",9999,"127.0.0.1",80));
+                                new CrossLanClientHandler("abcd1234", 9999, "127.0.0.1", 80));
                     }
                 });
         try {

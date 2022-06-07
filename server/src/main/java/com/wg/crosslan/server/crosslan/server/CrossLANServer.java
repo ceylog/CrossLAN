@@ -66,7 +66,7 @@ public class CrossLANServer implements ApplicationRunner, ApplicationListener<Co
             });
             log.info("CrossLAN server started on port:{}", port);
         } catch (InterruptedException e) {
-            log.error("Cross LAN server start error",e);
+            log.error("Cross LAN server start error", e);
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
             throw e;

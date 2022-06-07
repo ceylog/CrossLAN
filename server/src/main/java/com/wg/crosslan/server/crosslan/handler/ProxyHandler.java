@@ -10,7 +10,7 @@ public class ProxyHandler extends CommonHandler {
 
     private CommonHandler proxyHandler;
 
-    public ProxyHandler(CommonHandler proxyHandler){
+    public ProxyHandler(CommonHandler proxyHandler) {
         this.proxyHandler = proxyHandler;
     }
 
