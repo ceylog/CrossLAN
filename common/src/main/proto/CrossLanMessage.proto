@@ -1,0 +1,23 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.wg.crosslan.common.protocol.proto";
+option java_outer_classname = "CrossLanMessageProto";
+
+message CrossLanMessage{
+  optional uint32 id = 1;
+  map<string, string> meta_data = 2;
+  Type type = 3;
+  optional bytes data = 4;
+  optional bool is_success = 5;
+  optional string channel_id = 6;
+}
+
+enum Type {
+  TYPE_NULL = 0;
+  REGISTER = 1;
+  REGISTER_RESULT = 2;
+  CONNECTED = 3;
+  DISCONNECTED = 4;
+  DATA = 5;
+  KEEPALIVE = 6;
+}
