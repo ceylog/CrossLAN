@@ -43,9 +43,9 @@ public final class CrossLanMessageProto {
       "sB\r\n\013_channel_id*r\n\004Type\022\r\n\tTYPE_NULL\020\000\022" +
       "\014\n\010REGISTER\020\001\022\023\n\017REGISTER_RESULT\020\002\022\r\n\tCO" +
       "NNECTED\020\003\022\020\n\014DISCONNECTED\020\004\022\010\n\004DATA\020\005\022\r\n" +
-      "\tKEEPALIVE\020\006B?\n%com.wg.crosslan.common.p" +
-      "rotocol.protoB\024CrossLanMessageProtoP\001b\006p" +
-      "roto3"
+      "\tKEEPALIVE\020\006BA\n%com.wg.crosslan.common.p" +
+      "rotocol.protoB\024CrossLanMessageProtoH\001P\001b" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

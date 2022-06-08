@@ -127,8 +127,6 @@ public class CrossLanClientHandler extends CommonHandler {
             channelHandlerMap.remove(channelId);
             throw e;
         }
-
-
     }
 
     private void handleRegisterResult(CrossLanMessage msg) {

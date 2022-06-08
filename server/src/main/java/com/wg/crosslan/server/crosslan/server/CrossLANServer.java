@@ -1,6 +1,5 @@
 package com.wg.crosslan.server.crosslan.server;
 
-
 import com.wg.crosslan.common.protocol.proto.CrossLanMessage;
 import com.wg.crosslan.server.crosslan.handler.CrossLANHandler;
 import io.netty.bootstrap.ServerBootstrap;
