@@ -38,7 +38,7 @@ public class CrossLANHandler extends CommonHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        log.debug("channelRead ctx: {}\n msg -> {}", ctx, msg);
+        log.debug("channelRead ctx: {}\n msg ->[ {} ]", ctx, msg);
         CrossLanMessage cmsg = (CrossLanMessage) msg;
         Type type = cmsg.getType();
         if (Type.REGISTER == type) {
@@ -80,11 +80,12 @@ public class CrossLANHandler extends CommonHandler {
                         channels.add(socketChannel);
                     }
                 });
+                String clientName = cmsg.getMetaDataMap().get("clientName");
                 builder.setIsSuccess(true)
-                        .putMetaData("message", "mapping port:" + port);
+                        .putMetaData("message", clientName + " mapping port:" + port);
                 register = true;
                 this.port = port;
-                log.info("register success, mapping on port: {}", port);
+                log.info("register success, {} mapping on port: {}",clientName, port);
             } catch (InterruptedException e) {
                 log.error("start client proxy server error", e);
                 builder.setIsSuccess(false)

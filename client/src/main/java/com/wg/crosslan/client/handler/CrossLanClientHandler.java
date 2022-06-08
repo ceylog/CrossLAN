@@ -22,16 +22,18 @@ public class CrossLanClientHandler extends CommonHandler {
     private String token;
     private String proxyAddress;
     private Integer proxyPort;
+    private String clientName;
 
     private ConcurrentHashMap<String, CommonHandler> channelHandlerMap = new ConcurrentHashMap<>();
     private ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    public CrossLanClientHandler(String token, Integer remotePort, String proxyAddress, Integer proxyPort) {
+    public CrossLanClientHandler(String token, Integer remotePort, String proxyAddress, Integer proxyPort,String clientName) {
 
         this.token = token;
         this.remotePort = remotePort;
         this.proxyAddress = proxyAddress;
         this.proxyPort = proxyPort;
+        this.clientName = clientName;
     }
 
     @Override
@@ -40,6 +42,7 @@ public class CrossLanClientHandler extends CommonHandler {
         CrossLanMessage msg = CrossLanMessage.newBuilder()
                 .setType(Type.REGISTER)
                 .putMetaData("token", token)
+                .putMetaData("clientName",clientName)
                 .putMetaData("remotePort", remotePort + "")
                 .build();
         ctx.channel().writeAndFlush(msg);
@@ -54,7 +57,7 @@ public class CrossLanClientHandler extends CommonHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws InterruptedException {
-        log.debug("channelRead ctx {}\n msg -> {}", ctx, msg);
+        log.debug("channelRead ctx {}\n msg ->[ {} ]", ctx, msg);
         CrossLanMessage clmsg = (CrossLanMessage) msg;
         Type type = clmsg.getType();
         if (Type.REGISTER_RESULT == type) {

@@ -9,6 +9,7 @@ crosslan:
     remotePort: 9999
     proxyAddress: localhost
     proxyPort: 80
+    clientName: MyNginxServer
 logging:
   level:
     root: info

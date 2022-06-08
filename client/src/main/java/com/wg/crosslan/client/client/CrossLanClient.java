@@ -33,6 +33,7 @@ public class CrossLanClient implements ApplicationRunner, ApplicationListener<Co
     private String proxyAddress;
     private Integer proxyPort;
     private Integer remotePort;
+    private String clientName;
 
     private ChannelFuture channelFuture;
 
@@ -51,19 +52,15 @@ public class CrossLanClient implements ApplicationRunner, ApplicationListener<Co
                                 new ProtobufVarint32LengthFieldPrepender(),
                                 new ProtobufEncoder(),
                                 new IdleStateHandler(60, 30, 0),
-                                new CrossLanClientHandler(token, remotePort, proxyAddress, proxyPort));
+                                new CrossLanClientHandler(token, remotePort, proxyAddress, proxyPort,clientName));
                     }
                 });
         try {
             channelFuture = bootstrap.connect(serverAddress, serverPort).sync();
-            channelFuture.channel().closeFuture().addListener(future -> {
-                eventExecutors.shutdownGracefully();
-                System.exit(-1);
-            });
+            channelFuture.channel().closeFuture().addListener(future -> eventExecutors.shutdownGracefully());
         } catch (InterruptedException e) {
             log.error("CrossLan client run failed",e);
             close();
-            System.exit(-1);
         }
     }
 
@@ -77,7 +74,6 @@ public class CrossLanClient implements ApplicationRunner, ApplicationListener<Co
             channelFuture.channel().close();
         }
         log.info("CrossLan client closed.");
-        System.exit(-1);
     }
 
     public void setServerAddress(String serverAddress) {
@@ -102,5 +98,9 @@ public class CrossLanClient implements ApplicationRunner, ApplicationListener<Co
 
     public void setRemotePort(Integer remotePort) {
         this.remotePort = remotePort;
+    }
+
+    public void setClientName(String clientName){
+        this.clientName = clientName;
     }
 }
