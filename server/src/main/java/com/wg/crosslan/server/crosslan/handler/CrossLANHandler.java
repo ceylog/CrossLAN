@@ -38,7 +38,7 @@ public class CrossLANHandler extends CommonHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        log.debug("channelRead ctx: {} ,\n{}", ctx, msg);
+        log.debug("channelRead ctx: {}\n msg -> {}", ctx, msg);
         CrossLanMessage cmsg = (CrossLanMessage) msg;
         Type type = cmsg.getType();
         if (Type.REGISTER == type) {
@@ -49,7 +49,7 @@ public class CrossLANHandler extends CommonHandler {
             } else if (Type.DATA == type) {
                 processData(cmsg);
             } else if (Type.KEEPALIVE == type) {
-                log.info("keepalive ..");
+                log.debug("keepalive .. {}",ctx.channel().remoteAddress());
             } else {
                 log.error("unknow type:{}", type);
             }

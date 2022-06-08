@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: CrossLAN-Client
+crosslan:
+  client:
+    serverAddress: 127.0.0.1
+    serverPort: 8088
+    token: abcd1234
+    remotePort: 9999
+    proxyAddress: localhost
+    proxyPort: 80
+logging:
+  level:
+    root: info
+    com.wg.crosslan.client: debug

@@ -12,7 +12,7 @@
     <artifactId>client</artifactId>
 
     <properties>
-
+        <start-class>com.wg.crosslan.client.CrossLanClientApp</start-class>
     </properties>
 
     <dependencies>
@@ -24,11 +24,13 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>CrossLAN-Client</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>${start-class}</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -36,6 +38,13 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

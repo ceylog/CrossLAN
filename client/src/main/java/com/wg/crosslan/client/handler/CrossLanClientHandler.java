@@ -4,10 +4,7 @@ import com.wg.crosslan.common.handler.CommonHandler;
 import com.wg.crosslan.common.protocol.proto.CrossLanMessage;
 import com.wg.crosslan.common.protocol.proto.Type;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
+import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -50,14 +47,14 @@ public class CrossLanClientHandler extends CommonHandler {
     }
 
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelInactive(ChannelHandlerContext ctx) {
         log.warn("channelInactive..  ");
         channels.close();
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws InterruptedException {
-        log.debug("channelRead \n" + msg);
+        log.debug("channelRead ctx {}\n msg -> {}", ctx, msg);
         CrossLanMessage clmsg = (CrossLanMessage) msg;
         Type type = clmsg.getType();
         if (Type.REGISTER_RESULT == type) {
@@ -69,7 +66,7 @@ public class CrossLanClientHandler extends CommonHandler {
         } else if (Type.DATA == type) {
             handleData(clmsg);
         } else if (Type.KEEPALIVE == type) {
-            log.info("keepalive ..");
+            log.debug("keepalive .. {}", ctx.channel().remoteAddress());
         } else {
             throw new RuntimeException("unknow type: " + type);
         }
@@ -115,9 +112,10 @@ public class CrossLanClientHandler extends CommonHandler {
                     }
                 });
         try {
-            Channel channel = b.connect(proxyAddress, proxyPort).sync().channel();
-            channel.closeFuture().addListener(future -> workGroup.shutdownGracefully());
+            ChannelFuture channelFuture = b.connect(proxyAddress, proxyPort).sync();
+            channelFuture.channel().closeFuture().addListener(future -> workGroup.shutdownGracefully());
         } catch (InterruptedException e) {
+            log.error("start proxy server failed", e);
             workGroup.shutdownGracefully();
             CrossLanMessage disConnMsg = CrossLanMessage.newBuilder()
                     .setType(Type.DISCONNECTED)

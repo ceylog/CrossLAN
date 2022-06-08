@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 public class CrossLANServer implements ApplicationRunner, ApplicationListener<ContextClosedEvent>, ApplicationContextAware {
     private Integer port;
     private String bindHost;
-    private Channel channel;
+    private ChannelFuture channelFuture;
 
     private String token;
 
@@ -58,8 +58,8 @@ public class CrossLANServer implements ApplicationRunner, ApplicationListener<Co
                             );
                         }
                     });
-            channel = b.bind().sync().channel();
-            channel.closeFuture().addListener((ChannelFutureListener) future -> {
+            channelFuture = b.bind().sync();
+            channelFuture.channel().closeFuture().addListener((ChannelFutureListener) future -> {
                 workerGroup.shutdownGracefully();
                 bossGroup.shutdownGracefully();
             });
@@ -78,8 +78,8 @@ public class CrossLANServer implements ApplicationRunner, ApplicationListener<Co
     }
 
     public synchronized void close() {
-        if (null != this.channel) {
-            this.channel.close();
+        if (null != this.channelFuture) {
+            this.channelFuture.channel().close();
         }
         log.info("Cross LAN server stop");
     }

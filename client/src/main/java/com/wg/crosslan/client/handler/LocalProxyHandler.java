@@ -5,7 +5,9 @@ import com.wg.crosslan.common.handler.CommonHandler;
 import com.wg.crosslan.common.protocol.proto.CrossLanMessage;
 import com.wg.crosslan.common.protocol.proto.Type;
 import io.netty.channel.ChannelHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class LocalProxyHandler extends CommonHandler {
 
     private final CommonHandler proxyHandler;
@@ -19,6 +21,7 @@ public class LocalProxyHandler extends CommonHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        log.debug("channelRead {}",ctx);
         byte[] data = (byte[]) msg;
         CrossLanMessage dataMsg = CrossLanMessage.newBuilder()
                 .setType(Type.DATA)
@@ -26,7 +29,6 @@ public class LocalProxyHandler extends CommonHandler {
                 .setData(ByteString.copyFrom(data))
                 .build();
         proxyHandler.getCtx().writeAndFlush(dataMsg);
-
     }
 
     @Override
